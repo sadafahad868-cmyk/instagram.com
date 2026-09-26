@@ -1,0 +1,12 @@
+{
+    "name": "instagram-contact-endpoint",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node server.js",
+        "test": "node test-contact.js"
+    },
+    "dependencies": {
+        "nodemailer": "^7.0.0"
+    }
+}
